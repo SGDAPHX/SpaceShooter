@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class GameController : MonoBehaviour {
+
+	public GUIText ScoreManager;
+	private int score;
 
 	public GameObject hazards;
 	public GUIText gameOverText;
@@ -22,6 +25,9 @@ public class GameController : MonoBehaviour {
 		bGameOver = bRestart = false;
 		restartText.text = gameOverText.text = "";
 		StartCoroutine ("SpawnWaves");
+
+		score = 0;
+		UpdateScore ();
 	}
 	void Update()
 	{
@@ -55,7 +61,15 @@ public class GameController : MonoBehaviour {
 
 		StartCoroutine ("SpawnWaves");
 	}
-
+	void UpdateScore()
+		{
+			ScoreManager.text = "Score: " + score;
+		}
+		public void addScore(int newScore)
+		{
+			score += newScore;
+			UpdateScore();
+		}
 	public void GameOver()
 	{
 		gameOverText.text = "GameOver";
