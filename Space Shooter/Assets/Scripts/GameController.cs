@@ -4,6 +4,10 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
 	public GameObject hazards;
+	public GUIText gameOverText;
+	public GUIText restartText;
+	private bool bGameOver, bRestart;
+
 	public Vector3 spawnValue;
 	public int numHostiles = 10;
 	public int hosIncreaseRate = 1;
@@ -15,10 +19,21 @@ public class GameController : MonoBehaviour {
 
 	void Start()
 	{
+		bGameOver = bRestart = false;
+		restartText.text = gameOverText.text = "";
 		StartCoroutine ("SpawnWaves");
+	}
+	void Update()
+	{
+		if (bRestart && Input.GetKeyDown(KeyCode.R)) 
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		}
 	}
 	IEnumerator SpawnWaves()
 	{
+	
+
 		for (int i = 0; i < numHostiles; ++i) {
 			yield return new WaitForSeconds (spawnWait);
 			Vector3 spawnPosition = new Vector3 (Random.Range (-spawnValue.x, spawnValue.x), 0, spawnValue.z);
@@ -37,6 +52,15 @@ public class GameController : MonoBehaviour {
 		//increase entities spawned per wave
 		numHostiles += hosIncreaseRate;
 		////////restart coRoutine
+
 		StartCoroutine ("SpawnWaves");
+	}
+
+	public void GameOver()
+	{
+		gameOverText.text = "GameOver";
+		bGameOver = true;
+		restartText.text = "press r to restart";
+		bRestart = true;
 	}
 }
