@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 
+	public GUIText ScoreManager;
+	private int score;
 	public GameObject hazards;
 	public Vector3 spawnValue;
 	public int numHostiles = 10;
@@ -16,6 +18,8 @@ public class GameController : MonoBehaviour {
 	void Start()
 	{
 		StartCoroutine ("SpawnWaves");
+		score = 0;
+		UpdateScore ();
 	}
 	IEnumerator SpawnWaves()
 	{
@@ -38,5 +42,14 @@ public class GameController : MonoBehaviour {
 		numHostiles += hosIncreaseRate;
 		////////restart coRoutine
 		StartCoroutine ("SpawnWaves");
+	}
+	void UpdateScore()
+	{
+		ScoreManager.text = "Score: " + score;
+	}
+	public void addScore(int newScore)
+	{
+		score += newScore;
+		UpdateScore();
 	}
 }
